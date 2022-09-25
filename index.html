@@ -9,29 +9,32 @@
   </head>
   <body class="bg-gray font-Reem-Kufi">
     <header>
-      <div class="text-center my-8">
+      <div class="text-center my-5">
         <p class="text-orange text-4xl">Sounfy</p>
       </div>
     </header>
     <section class="text-center flex flex-col items-center">
-      <h1 class="text-8xl text-white opacity-50 mt-5 mb-24">
+      <h1 class="text-6xl text-white opacity-50 mt-5 mb-24">
         Listas de reproducción
       </h1>
       <!-- Boton agregar lista (Sin listas)-->
       <div id="listsAreaZero" class="hidden">
         <div
-          class="border border-blue rounded-2xl border-solid flex flex-col w-96 h-96 justify-center hover:cursor-pointer addBtn"
+          class="border border-blue rounded-2xl border-solid flex flex-col w-72 h-72 justify-center hover:cursor-pointer addBtn animate-pulse"
         >
           <img
-            class="w-28 h-28 mx-auto mb-12"
+            class="w-1/3 aspect-square mx-auto mb-12"
             src="assets/imgs/add.png"
             alt=""
           />
-          <p class="text-blue text-6xl">Agregar</p>
+          <p class="text-blue text-4xl">Agregar</p>
         </div>
       </div>
       <!-- Boton agregar lista y listas (Con listas existentes) -->
-      <div id="listsAreaPlus" class="hidden grid xl:grid-cols-4  sm:grid-cols-2 gap-16 w-auto mx-auto">
+      <div
+        id="listsAreaPlus"
+        class="hidden grid xl:grid-cols-4 sm:grid-cols-2 gap-16 w-auto mx-auto"
+      >
         <!-- Boton agregar -->
         <div
           class="border border-blue rounded-2xl border-solid flex flex-col w-60 aspect-square justify-center hover:cursor-pointer addBtn"
@@ -43,30 +46,66 @@
           />
           <p class="text-blue text-5xl">Agregar</p>
         </div>
-        <!-- listas -->  
+        <!-- listas -->
       </div>
     </section>
     <!-- Agregar lista -->
-    <div id="addListForm" class="hidden absolute flex w-full h-full top-0 left-0 bg-black bg-opacity-50">
-        <form class="bg-gray-2 flex flex-col justify-between mx-auto my-auto w-auto h-auto p-10 rounded-xl shadow-[4px_4px_4px_4px_rgba(255,255,255,0.25)]">
-            <div>
-                <h3 class="text-white text-3xl">
-                    Nueva lista
-                </h3>
-                <div class="border-4 border-gray-2 border-b-white">
-                    <input id="titulo" name="titulo" class="w-full h-12 mt-5 text-3xl pl-5 bg-gray-2 text-white" type="text" placeholder="Titulo*" required>
-                </div>
-            </div>
-            <div class=" flex justify-end mt-20 ml-20">
-                <button id="cancelBtn" class="text-white text-3xl">
-                    Cancelar
-                </button>
-                <button id="createBtn" type="submit" class="bg-white rounded-md text-3xl w-52 h-14 ml-5">
-                    Crear
-                </button>
-            </div>
-            
-        </form>
+    <div
+      id="addListForm"
+      class="hidden absolute flex w-full h-full top-0 left-0 bg-black bg-opacity-50"
+    >
+      <form
+        id="formNewList"
+        class="bg-gray-2 flex flex-col justify-between mx-auto my-auto w-auto h-auto p-10 rounded-xl shadow-[4px_4px_4px_4px_rgba(255,255,255,0.25)]"
+      >
+        <div>
+          <h3 class="text-white text-2xl">Nueva lista</h3>
+          <div class="border-4 border-gray-2 border-b-white">
+            <input
+              id="titulo"
+              name="titulo"
+              class="w-full h-8 mt-5 text-2xl pl-5 bg-gray-2 text-white"
+              type="text"
+              placeholder="Titulo*"
+              required
+            />
+          </div>
+        </div>
+        <div class="flex justify-end mt-10 ml-20">
+          <button id="cancelBtn" class="text-white text-2xl">Cancelar</button>
+          <button
+            id="createBtn"
+            type="submit"
+            class="bg-white rounded-md text-2xl w-52 h-14 ml-5"
+          >
+            Crear
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- Borrar lista -->
+    <div
+      id="deleteListForm"
+      class="hidden absolute flex w-full h-full top-0 left-0 bg-black bg-opacity-50"
+    >
+      <form
+        id="formDeleteList"
+        class="bg-gray-2 flex flex-col justify-between mx-auto my-auto w-auto h-auto p-10 rounded-xl shadow-[4px_4px_4px_4px_rgba(255,255,255,0.25)]"
+      >
+        <div>
+          <h3 class="text-white text-2xl">¿Estás seguro de querer borrar la lista?</h3>
+        </div>
+        <div class="flex justify-end mt-10 ml-20">
+          <button id="cancelDeleteBtn" class="text-white text-2xl">Cancelar</button>
+          <button
+            id="deleteBtn"
+            type="submit"
+            class="bg-white rounded-md text-2xl w-52 h-14 ml-5"
+          >
+            Borrar
+          </button>
+        </div>
+      </form>
     </div>
   </body>
   <script src="assets/js/scripts_index.js"></script>

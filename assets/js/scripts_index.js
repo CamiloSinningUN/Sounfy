@@ -11,12 +11,31 @@ function loadList() {
         listsAreaPlus.classList.remove('hidden');
         listas.forEach(list => {
             const listElement = `
+            <div class="relative group hover:cursor-pointer">
+          <div
+            class="rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 flex flex-col w-60 h-60 justify-center absolute p-5 group-hover:-top-1.5 group-hover:-left-1.5 transition-all list"
+            id="${list.titulo}"
+          >
+            <p
+              class="text-white break-normal whitespace-normal w-full text-6xl mx-auto truncate"
+            >
+              ${list.titulo}
+            </p>
             <div
-              class=" rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 flex flex-col w-60 aspect-square justify-center hover:cursor-pointer"
+              class="absolute top-3 right-3 scale-0 group-hover:scale-100 transition-all delete"
               id="${list.titulo}"
             >
-              <p class="text-white text-6xl">${list.titulo}</p>
-            </div> 
+              <img
+                class="w-5 h-5 aspect-square mx-auto mb-12"
+                src="assets/imgs/delete.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <div
+            class="rounded-2xl bg-orange w-60 h-60 -z-10 absolute top-0 left-0 group-hover:top-1.5 group-hover:left-1.5 transition-all"
+          ></div>
+        </div>
             `;
             listsAreaPlus.innerHTML += listElement;
         });
@@ -30,6 +49,13 @@ function prepareButtons() {
     const addBtn = document.querySelectorAll('.addBtn');
     const cancelBtn = document.getElementById('cancelBtn');
     const createBtn = document.getElementById('createBtn');
+    const tituloInput = document.getElementById('titulo');
+    const form = document.getElementById('formNewList');
+    const lists = document.querySelectorAll('.list');
+    const deleteBtns = document.querySelectorAll('.list > .delete');
+    const deleteListForm = document.getElementById('deleteListForm');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    const deleteBtn = document.getElementById('deleteBtn');
 
     addBtn.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -44,7 +70,7 @@ function prepareButtons() {
     });
 
     createBtn.addEventListener('click', () => {
-        const titulo = document.getElementById('titulo').value;
+        const titulo = tituloInput.value;
         if (titulo != '') {
 
             for (const lista of listas) {
@@ -63,8 +89,46 @@ function prepareButtons() {
             window.localStorage.setItem("listas", JSON.stringify(listas))
         }
     });
+
+    form.addEventListener('submit', (e) => {
+        createBtn.click();
+    });
+
+    lists.forEach(list => {
+        list.addEventListener('click', () => {
+            const listName = list.id;
+            console.log(listName);
+            window.location.href = `playlist.html?list=${listName}`;
+        });
+    });
+    
+    deleteBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            deleteListForm.classList.remove('hidden');
+            deleteBtn.setAttribute('list', btn.id);
+        });
+    });
+
+    cancelDeleteBtn.addEventListener('click', () => {
+        deleteListForm.classList.add('hidden');
+    });
+
+    deleteBtn.addEventListener('click', () => {
+        const listName = deleteBtn.getAttribute('list');
+        const index = listas.findIndex(list => list.titulo == listName);
+        listas.splice(index, 1);
+        window.localStorage.setItem("listas", JSON.stringify(listas))
+        window.location.reload();
+    });
 }
 
 const listas = getList();
 loadList();
 prepareButtons();
+
+
+
+
+
+
