@@ -9,39 +9,45 @@
   </head>
   <body class="bg-gray font-Reem-Kufi">
     <header>
-      <div class="text-center my-8">
+      <div class="text-center my-5">
         <p class="text-orange text-4xl">Sounfy</p>
       </div>
     </header>
-    <section class="text-center flex flex-col items-center">
-        <!-- Titulo -->
-        <div class="flex w-2/3">
-            <div class="w-1/5">
-                <img class="w-full" src="assets/imgs/playlist.png" alt="">
-            </div>
-            <div class="flex flex-col justify-between ml-10 text-left w-4/5 ">
-                <div>
-                    <div class="flex justify-between">
-                        <h2 class="text-white text-6xl inline-block">
-                            LIFE STARTS NOW
-                        </h2>
-                        <h5 class=" text-white opacity-50 text-4xl inline-block align-middle">
-                            30 canciones
-                        </h5>
-                    </div>
-                    <h5 class="text-white opacity-50 text-4xl mt-5">
-                        Three days grace
-                    </h5>
-                </div>    
-                <div class="flex align-bottom">
-                    <button class="bg-yellow rounded-full w-52 h-14 text-4xl text-black">
-                        Play
-                    </button>
-                    <button class="bg-orange rounded-full w-14 h-14 ml-5">
-                        <img class="mx-auto mb-1 w-6 h-6" src="assets/imgs/addsong.png" alt="">
-                    </button>
-                </div>
-                <!-- <div class="flex">
+    <section class="text-center flex flex-col mx-5">
+      <!-- Titulo -->
+      <div class="flex w-auto h-50">
+        <div class="h-full w-auto">
+          <img class="" src="assets/imgs/playlist.png" alt="" />
+        </div>
+        <div class="flex flex-col justify-between ml-5 text-left w-auto">
+          <div>
+            <h2 id="titulo" class="text-white text-5xl ">LIFE STARTS NOW</h2>
+            <h5
+                id="cantidad"
+              class="text-white opacity-50 text-2xl align-middle"
+            >
+              30 canciones
+            </h5>
+          </div>
+          <div class="flex align-bottom"
+          id="normalBtn">
+            <button
+              class="bg-yellow rounded-full w-auto px-10 h-14 text-4xl text-black"
+                id="playBtn"
+              >
+              Reproducir
+            </button>
+            <button class="bg-orange rounded-full w-14 h-14 ml-5"
+            id="addSong">
+              <img
+                class="mx-auto mb-1 w-6 h-6"
+                src="assets/imgs/addsong.png"
+                alt=""
+              />
+            </button>
+          </div>
+          <div class="hidden flex"
+          id="registerSongBtn">
                     <input class="bg-white pl-5 rounded-full w-72 h-14 text-3xl text-black" type="text" placeholder="Nombre*">
                     <input class="bg-white pl-5 rounded-full w-72 h-14 text-3xl text-black ml-5" type="text" placeholder="Autor">
                     <div class="bg-white pl-5 rounded-full w-14 h-14 text-3xl text-black ml-5 flex hover:cursor-pointer">
@@ -55,60 +61,77 @@
                             <img class="h-6 w-6 my-auto" src="assets/imgs/addsong.png" alt="">
                         </div>
                     </button>
-                </div> -->
-            </div>
-        </div>
-        <!-- Lista de canciones -->
-        <div class="text-white w-2/3 mt-5  text-3xl">
-            <div class="opacity-50">
-                <hr>
-                <div class="flex my-3">
-                    <div class="flex w-1/5 justify-center">
-                        <img class="w-5 h-5 my-auto mr-2" src="assets/imgs/order.png" alt="">
-                        <p>Nombre</p>
-                    </div>
-                    <div class="flex w-4/5 justify-center">
-                        <img class="w-5 h-5 my-auto mr-2" src="assets/imgs/order.png" alt="">
-                        <p>Autor</p>
-                    </div>
-                    <div class="opacity-0">
-                        <img class="mr-10 h-7 mt-1" src="assets/imgs/options.png" alt="">
-                    </div>
                 </div>
-                <hr> 
-            </div>
-            <div>
-                <div class="flex my-3 hover:cursor-pointer hover:animate-pulse">
-                    <div class="flex w-1/5 justify-center">
-                        <p>Matilda</p>
-                    </div>
-                    <div class="flex w-4/5 justify-center">
-                        <img class="w-5 h-5 my-auto mr-2" src="assets/imgs/author.png" alt="">
-                        <p>Harry styles</p>
-                    </div>
-                    <div>
-                        <img class="mr-10 h-7 mt-1" src="assets/imgs/options.png" alt="">
-                    </div>
-                </div>
-                <hr class="opacity-50">
-            </div>
-
         </div>
+      </div>
+      <!-- Lista de canciones (Sin canciones)-->
+      <div class="hidden text-white mt-5 text-3xl" id="songsNoList">
+        <div class="opacity-50 flex flex-col">
+          <hr />
+          <div class="my-auto mt-10">
+            <img class="w-52 aspect-square mx-auto" src="assets/imgs/noSongs.png" alt="">
+            <h5 class="text-white opacity-50 w-1/4 mx-auto text-2xl align-middle mt-5">
+              No hay canciones, agrega la primera
+            </h5>
+          </div>
+        </div>
+        <!-- Zona de canciones -->
+      </div>
+      <!-- Lista de canciones (Con canciones)-->
+      <div class="hidden text-white mt-5 text-3xl" id="songsList">
+        <div class="opacity-50">
+          <hr />
+          <div class="flex my-3">
+            <div class="flex w-1/5 justify-center">
+              <img
+                class="w-5 h-5 my-auto mr-2"
+                src="assets/imgs/order.png"
+                alt=""
+              />
+              <p>Nombre</p>
+            </div>
+            <div class="flex w-4/5 justify-center">
+              <img
+                class="w-5 h-5 my-auto mr-2"
+                src="assets/imgs/order.png"
+                alt=""
+              />
+              <p>Autor</p>
+            </div>
+            <div class="opacity-0">
+              <img
+                class="mr-10 h-7 mt-1"
+                src="assets/imgs/options.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <hr />
+        </div>
+        <!-- Zona de canciones -->
+      </div>
     </section>
     <!-- reproductor -->
-    <footer class="fixed bg-black overflow-visible bottom-0 h-16 w-full flex justify-between text-white shadow-white shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] p-3 ">
-        <div class="flex">
-            <img class="animate-spin" src="assets/imgs/song.png" alt="">
-            <p class="ml-5 my-auto">21 Guns - Green day</p>
-        </div>
-        <div class="flex relative -mt-10 hover:cursor-pointer">
-            <img class="relative inline-flex" src="assets/imgs/play.png" alt="">
-            <img class="hover:animate-ping absolute inline-flex" src="assets/imgs/play.png" alt="">
-        </div>
-        <div class="flex">
-            <p class="mr-5 my-auto">Rock 2000</p>
-            <img  src="assets/imgs/list.png" alt="">
-        </div>
+    <footer
+      class="-bottom-24 transition-all fixed bg-black overflow-visible h-12 w-full flex justify-between text-white shadow-white shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] p-3"
+        id="reproductor"
+      >
+      <div class="flex">
+        <img class="animate-spin" src="assets/imgs/song.png" alt="" />
+        <p class="ml-5 my-auto">21 Guns - Green day</p>
+      </div>
+      <div class="flex relative -mt-8 hover:cursor-pointer group">
+        <img class="w-14 h-14 relative inline-flex" src="assets/imgs/play.png" alt="" />
+        <img
+          class="-z-10 w-14 h-14 group-hover:animate-ping absolute inline-flex"
+          src="assets/imgs/play.png"
+          alt=""
+        />
+      </div>
+      <div class="flex">
+        <p class="mr-5 my-auto">Rock 2000</p>
+        <img src="assets/imgs/list.png" alt="" />
+      </div>
     </footer>
   </body>
   <script src="assets/js/scripts_list.js"></script>

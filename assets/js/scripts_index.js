@@ -56,6 +56,7 @@ function prepareButtons() {
     const deleteListForm = document.getElementById('deleteListForm');
     const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
     const deleteBtn = document.getElementById('deleteBtn');
+    const errorAddList = document.getElementById('errorAddList');
 
     addBtn.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -64,18 +65,22 @@ function prepareButtons() {
         });
     });
 
-    cancelBtn.addEventListener('click', () => {
+    cancelBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         const addListForm = document.getElementById('addListForm');
         addListForm.classList.add('hidden');
+        errorAddList.classList.add('hidden');
     });
 
-    createBtn.addEventListener('click', () => {
+    createBtn.addEventListener('click', (e) => {
+        errorAddList.classList.add('hidden');
         const titulo = tituloInput.value;
         if (titulo != '') {
-
             for (const lista of listas) {
                 if (lista.titulo == titulo) {
-                    alert('El titulo ya existe');
+                    errorAddList.innerText = 'El título ya existe';
+                    errorAddList.classList.remove('hidden');
+                    e.preventDefault();
                     return;
                 }
             }
@@ -87,11 +92,22 @@ function prepareButtons() {
 
             listas.push(lista)
             window.localStorage.setItem("listas", JSON.stringify(listas))
+            window.location.reload();
+        }else{
+            errorAddList.innerText = 'El titulo no puede estar vacio';
+            errorAddList.classList.remove('hidden');
         }
+        e.preventDefault();
     });
 
     form.addEventListener('submit', (e) => {
         createBtn.click();
+    });
+
+    form.addEventListener('keypress', (e) => {
+        if (e.key == 'Enter') {
+            createBtn.click();
+        }
     });
 
     lists.forEach(list => {
