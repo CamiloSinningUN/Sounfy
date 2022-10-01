@@ -10,7 +10,9 @@
   <body class="bg-gray font-Reem-Kufi">
     <header>
       <div class="text-center my-5">
-        <p class="text-orange text-4xl">Sounfy</p>
+        <p id="logo" class="text-orange text-4xl hover:cursor-pointer">
+          Sounfy
+        </p>
       </div>
     </header>
     <section class="text-center flex flex-col items-center">
@@ -18,35 +20,12 @@
         Listas de reproducción
       </h1>
       <!-- Boton agregar lista (Sin listas)-->
-      <div id="listsAreaZero" class="hidden">
-        <div
-          class="border border-blue rounded-2xl border-solid flex flex-col w-72 h-72 justify-center hover:cursor-pointer addBtn animate-pulse"
-        >
-          <img
-            class="w-1/3 aspect-square mx-auto mb-12"
-            src="assets/imgs/add.png"
-            alt=""
-          />
-          <p class="text-blue text-4xl">Agregar</p>
-        </div>
-      </div>
+      <div id="listsAreaZero"></div>
       <!-- Boton agregar lista y listas (Con listas existentes) -->
       <div
         id="listsAreaPlus"
-        class="hidden grid xl:grid-cols-4 sm:grid-cols-2 gap-16 w-auto mx-auto"
-      >
-        <!-- Boton agregar -->
-        <div
-          class="border border-blue rounded-2xl border-solid flex flex-col w-60 aspect-square justify-center hover:cursor-pointer addBtn"
-        >
-          <img
-            class="w-1/3 aspect-square mx-auto mb-12"
-            src="assets/imgs/add.png"
-            alt=""
-          />
-          <p class="text-blue text-5xl">Agregar</p>
-        </div>
-        <!-- listas -->
+        class="flex w-10/12 max-w-10/12 mx-auto justify-center gap-5 flex-wrap"
+      >  
       </div>
     </section>
     <!-- Agregar lista -->
@@ -69,14 +48,16 @@
               placeholder="Titulo*"
             />
           </div>
-          <p class="text-orange pl-1 mt-1 hidden" id="errorAddList">El título ya existe</p>
+          <p class="text-orange pl-1 mt-1 hidden" id="errorAddList">
+            El título ya existe
+          </p>
         </div>
         <div class="flex justify-end mt-10 ml-20">
           <button id="cancelBtn" class="text-white text-2xl">Cancelar</button>
           <button
             id="createBtn"
             type="submit"
-            class="bg-white rounded-md text-2xl w-52 h-14 ml-5"
+            class="bg-white rounded-md text-2xl w-52 h-14 ml-5 hover:opacity-80 active:opacity-70"
           >
             Crear
           </button>
@@ -93,10 +74,14 @@
         class="bg-gray-2 flex flex-col justify-between mx-auto my-auto w-auto h-auto p-10 rounded-xl shadow-[4px_4px_4px_4px_rgba(255,255,255,0.25)]"
       >
         <div>
-          <h3 class="text-white text-2xl">¿Estás seguro de querer borrar la lista?</h3>
+          <h3 class="text-white text-2xl">
+            ¿Estás seguro de querer borrar la lista?
+          </h3>
         </div>
         <div class="flex justify-end mt-10 ml-20">
-          <button id="cancelDeleteBtn" class="text-white text-2xl">Cancelar</button>
+          <button id="cancelDeleteBtn" class="text-white text-2xl">
+            Cancelar
+          </button>
           <button
             id="deleteBtn"
             type="submit"

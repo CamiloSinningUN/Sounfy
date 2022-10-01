@@ -62,6 +62,7 @@ function prepareButtons() {
     const normalBtn = document.getElementById('normalBtn');
     const registerSongBtn = document.getElementById('registerSongBtn');
     const addSong = document.getElementById('addSong');
+    const logo = document.getElementById('logo');
 
     playBtn.addEventListener('click', () => {
         reproductor.classList.add('-translate-y-24');
@@ -70,6 +71,10 @@ function prepareButtons() {
     addSong.addEventListener('click', () => {
         registerSongBtn.classList.remove('hidden');
         normalBtn.classList.add('hidden');
+    });
+
+    logo.addEventListener('click', () => {
+        window.location.href = 'index.html';
     });
     
     

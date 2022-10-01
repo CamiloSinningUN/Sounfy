@@ -9,11 +9,22 @@ function loadList() {
     if (listas.length) {
         const listsAreaPlus = document.getElementById('listsAreaPlus');
         listsAreaPlus.classList.remove('hidden');
+        listsAreaZero.classList.add('hidden');
+        listsAreaPlus.innerHTML = `<button
+        class="border border-blue rounded-2xl border-solid flex flex-col w-60 aspect-square justify-center hover:cursor-pointer addBtn hover:scale-105 active:opacity-70 transition-all"
+      >
+        <img
+          class="w-1/3 aspect-square mx-auto mb-12"
+          src="assets/imgs/add.png"
+          alt=""
+        />
+        <p class="text-blue text-5xl">Agregar</p>
+      </button>`;
         listas.forEach(list => {
             const listElement = `
             <div class="relative group hover:cursor-pointer">
           <div
-            class="rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 flex flex-col w-60 h-60 justify-center absolute p-5 group-hover:-top-1.5 group-hover:-left-1.5 transition-all list"
+            class="rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 flex flex-col w-60 h-60 justify-center p-5 group-hover:-top-1.5 group-hover:-left-1.5 transition-all list"
             id="${list.titulo}"
           >
             <p
@@ -41,7 +52,19 @@ function loadList() {
         });
     } else {
         const listsAreaZero = document.getElementById('listsAreaZero');
+        listsAreaZero.innerHTML = `
+            <div
+            class="border border-blue rounded-2xl border-solid flex flex-col w-72 h-72 justify-center hover:cursor-pointer addBtn animate-pulse hover:scale-105 hover:animate-none active:opacity-70 transition-all"
+            >
+            <img
+                class="w-1/3 aspect-square mx-auto mb-12"
+                src="assets/imgs/add.png"
+                alt=""
+            />
+            <p class="text-blue text-4xl">Agregar</p>
+            </div>`;
         listsAreaZero.classList.remove('hidden');
+        listsAreaPlus.classList.add('hidden');
     }
 }
 
@@ -57,11 +80,13 @@ function prepareButtons() {
     const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
     const deleteBtn = document.getElementById('deleteBtn');
     const errorAddList = document.getElementById('errorAddList');
+    const logo = document.getElementById('logo');
 
     addBtn.forEach(btn => {
         btn.addEventListener('click', () => {
             const addListForm = document.getElementById('addListForm');
             addListForm.classList.remove('hidden');
+            errorAddList.classList.add('hidden');
         });
     });
 
@@ -70,9 +95,11 @@ function prepareButtons() {
         const addListForm = document.getElementById('addListForm');
         addListForm.classList.add('hidden');
         errorAddList.classList.add('hidden');
+        resetInputs();
     });
 
     createBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         errorAddList.classList.add('hidden');
         const titulo = tituloInput.value;
         if (titulo != '') {
@@ -92,12 +119,14 @@ function prepareButtons() {
 
             listas.push(lista)
             window.localStorage.setItem("listas", JSON.stringify(listas))
-            window.location.reload();
-        }else{
+            errorAddList.classList.add('hidden');
+            addListForm.classList.add('hidden');
+            updateList();
+        } else {
             errorAddList.innerText = 'El titulo no puede estar vacio';
             errorAddList.classList.remove('hidden');
         }
-        e.preventDefault();
+
     });
 
     form.addEventListener('submit', (e) => {
@@ -117,12 +146,13 @@ function prepareButtons() {
             window.location.href = `playlist.html?list=${listName}`;
         });
     });
-    
+
     deleteBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
+            const listName = btn.id;
             deleteListForm.classList.remove('hidden');
-            deleteBtn.setAttribute('list', btn.id);
+            deleteBtn.setAttribute('list', listName);
         });
     });
 
@@ -130,13 +160,32 @@ function prepareButtons() {
         deleteListForm.classList.add('hidden');
     });
 
-    deleteBtn.addEventListener('click', () => {
+    deleteBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         const listName = deleteBtn.getAttribute('list');
         const index = listas.findIndex(list => list.titulo == listName);
         listas.splice(index, 1);
         window.localStorage.setItem("listas", JSON.stringify(listas))
-        window.location.reload();
+        deleteListForm.classList.add('hidden');
+        updateList();
     });
+
+    logo.addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+}
+
+function updateList() {
+    const listsAreaPlus = document.getElementById('listsAreaPlus');
+    listsAreaPlus.innerHTML = '';
+    loadList();
+    prepareButtons();
+    resetInputs();
+}
+
+function resetInputs() {
+    const tituloInput = document.getElementById('titulo');
+    tituloInput.value = '';
 }
 
 const listas = getList();
