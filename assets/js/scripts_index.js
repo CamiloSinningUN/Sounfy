@@ -10,7 +10,7 @@ function loadList() {
         const listsAreaPlus = document.getElementById('listsAreaPlus');
         listsAreaPlus.classList.remove('hidden');
         listsAreaZero.classList.add('hidden');
-        listsAreaPlus.innerHTML = `<button
+        listsAreaPlus.innerHTML = `<div
         class="border border-blue rounded-2xl border-solid flex flex-col w-60 aspect-square justify-center hover:cursor-pointer addBtn hover:scale-105 active:opacity-70 transition-all"
       >
         <img
@@ -19,7 +19,7 @@ function loadList() {
           alt=""
         />
         <p class="text-blue text-5xl">Agregar</p>
-      </button>`;
+      </div>`;
         listas.forEach(list => {
             const listElement = `
             <div class="relative group hover:cursor-pointer">
