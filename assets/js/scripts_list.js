@@ -213,12 +213,12 @@ function prepareButtons() {
   });
 
   addSong.addEventListener('change', (e) => {
+    console.log(e);
     const files = e.target.files;
     const songs = [];
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-
       if (file.type.includes('audio')) {
         const nameList = file.name.split('.');
         nameList.pop();
