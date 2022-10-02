@@ -25,11 +25,11 @@ function loadList() {
             <div class="relative group hover:cursor-pointer">
           <div
             class="rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 flex flex-col w-60 h-60 justify-center p-5 group-hover:-top-1.5 group-hover:-left-1.5 transition-all list"
-            id="${list.titulo}"
+            lista="${list.titulo}"
           >
             <p
               class="text-white break-normal whitespace-normal w-full text-6xl mx-auto truncate list"
-              id="${list.titulo}"
+              lista="${list.titulo}"
               >
               ${list.titulo}
             </p>
@@ -39,8 +39,8 @@ function loadList() {
               <img
                 class="w-5 h-5 aspect-square mx-auto mb-12 delete"
                 src="assets/imgs/delete.png"
-                alt=""
-                id="${list.titulo}"
+                alt = ""
+                lista="${list.titulo}"
               />
             </div>
           </div>
@@ -86,7 +86,6 @@ function prepareButtons() {
     const listsAreaZero = document.getElementById('listsAreaZero');
     
     listsAreaPlus.addEventListener('click', e => {
-        console.log(e.target);
 
         // agregar lista
         if (e.target.classList.contains('addBtn')) {
@@ -97,13 +96,13 @@ function prepareButtons() {
 
         // ver lista
         if (e.target.classList.contains('list')) {
-            window.location.href = `playlist.html?list=${e.target.id}`;
+            window.location.href = `playlist.html?list=${e.target.getAttribute('lista')}`;
         }
 
         // borrar lista
         if (e.target.classList.contains('delete')) {
             e.stopPropagation();
-            const listName = e.target.id;
+            const listName = e.target.getAttribute('lista');
             deleteListForm.classList.remove('hidden');
             deleteBtn.setAttribute('list', listName);
         }

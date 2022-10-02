@@ -5,7 +5,7 @@ function getThisList() {
   return urlParams.get('list');
 }
 
-function buttonNoSongs() {
+function buttonNoSongs(playBtn, addSongLabel, addSongLabelImg, addSongLabelP) {
   playBtn.classList.remove('hidden');
   addSongLabel.classList.remove('flex', 'justify-around', 'gap-5', 'w-auto', 'px-5');
   addSongLabel.classList.add('w-14', 'ml-5');
@@ -13,7 +13,7 @@ function buttonNoSongs() {
   addSongLabelP.classList.add('hidden');
 }
 
-function buttonWSongs() {
+function buttonWSongs(playBtn, addSongLabel, addSongLabelImg, addSongLabelP) {
   playBtn.classList.add('hidden');
   addSongLabel.classList.remove('w-14', 'ml-5');
   addSongLabel.classList.add('flex', 'justify-around', 'gap-5', 'w-auto', 'px-5');
@@ -21,23 +21,40 @@ function buttonWSongs() {
   addSongLabelP.classList.remove('hidden');
 }
 
-function initializeTitle() {
-  const title = thisList.titulo;
-  const titulo = document.getElementById('titulo');
-  const length = thisList.canciones.length;
-  const cantidad = document.getElementById('cantidad');
+function initializeTitle(titulo, cantidad) {
   const playBtn = document.getElementById('playBtn');
   const addSongLabel = document.getElementById('addSongLabel');
-  const addSongLabelP = document.getElementById('addSongLabelP');
   const addSongLabelImg = document.getElementById('addSongLabelImg');
-  
+  const addSongLabelP = document.getElementById('addSongLabelP');
+
+  const title = thisList.titulo;
+  const length = thisList.canciones.length;
+
   titulo.innerText = title;
   cantidad.innerText = length + " canciones";
 
   if (thisList.canciones.length > 0) {
-    buttonNoSongs(playBtn, addSongLabel, addSongLabelP, addSongLabelImg);
+    buttonNoSongs(playBtn, addSongLabel, addSongLabelImg, addSongLabelP);
   } else {
-    buttonWSongs(playBtn, addSongLabel, addSongLabelP, addSongLabelImg);
+    buttonWSongs(playBtn, addSongLabel, addSongLabelImg, addSongLabelP);
+  }
+}
+
+function animateButtonPages(){
+  const nextPage = document.getElementById('nextPage');
+  const previousPage = document.getElementById('previousPage');
+
+  if(page < totalPages){
+    nextPage.classList.add("hover:cursor-pointer", "hover:bg-[#333333]",  "active:bg-[#252525]");
+  }else{
+    nextPage.classList.remove("hover:cursor-pointer", "hover:bg-[#333333]",  "active:bg-[#252525]");
+  }
+  
+  if(page>1){
+    previousPage.classList.add("hover:cursor-pointer", "hover:bg-[#333333]",  "active:bg-[#252525]");
+  }else
+  {
+    previousPage.classList.remove("hover:cursor-pointer", "hover:bg-[#333333]",  "active:bg-[#252525]");
   }
 }
 
@@ -46,24 +63,26 @@ function loadSongs() {
   const board = document.getElementById('board');
   board.innerHTML = '';
 
+
+
   if (canciones.length > 0) {
     const head = `
     <div class="text-white mt-5 text-3xl" id="songsList">
           <div>
             <div class="relative">
               <hr class="opacity-10"/>
-              <div class="absolute right-36 -top-8 h-16 w-16 bg-[#3C3C3C] rounded-full text-center hover:cursor-default">
-                <p class="opacity-60 text-4xl mt-3">
-                  5
+              <div class="absolute right-36 -top-8 h-16 w-16 bg-[#3C3C3C] rounded-full text-center hover:cursor-default ">
+                <p class="opacity-60 text-4xl mt-3" id = "currentpage">
+                  ${page}
                 </p>
               </div>
-              <div class="absolute px-3 flex justify-around bg-[#3C3C3C] h-16 w-32 rounded-full right-0 -top-8">
-                <div class="w-full h-full my-auto hover:cursor-pointer">
-                  <img class="h-8 mt-4 ml-3" src="assets/imgs/previousPage.png" alt="">
+              <div class="absolute flex justify-around bg-[#3C3C3C] h-16 w-32 rounded-full right-0 -top-8 ">
+                <div class="w-full h-full my-auto rounded-l-full" id = "previousPage">
+                  <img class="h-8 mt-4 ml-5" src="assets/imgs/previousPage.png" alt="">
                 </div>
                 <img class="h-14 my-auto" src="assets/imgs/splitter.png" alt="">
-                <div class="w-full h-full my-auto hover:cursor-pointer">
-                  <img class="h-8 mt-4 mr-3 ml-auto" src="assets/imgs/nextPage.png" alt="">
+                <div class="w-full h-full my-auto rounded-r-full " id="nextPage">
+                  <img class=" h-8 mt-4 mr-5 ml-auto" src="assets/imgs/nextPage.png" alt="">
                 </div>
               </div>
             </div>
@@ -92,13 +111,15 @@ function loadSongs() {
     `;
     board.innerHTML += head;
     const songsList = document.getElementById('songsList');
-    canciones.forEach(cancion => {
+
+    for (let i = (page-1)*10; i < canciones.length && i < page*10; i++) {
+      const cancion = canciones[i];
       const song = `
         <div class="group hover:scale-105 transition-all song"
-        id = "${cancion.nombre}">
-        <div class="flex mx-7 justify-between my-3 hover:cursor-pointer hover:animate-pulse song" id = "${cancion.nombre}">
+        cancion = "${cancion.nombre}">
+        <div class="flex mx-7 justify-between my-3 hover:cursor-pointer hover:animate-pulse song" cancion = "${cancion.nombre}">
           <div class="">
-            <p id = "${cancion.nombre}" class = "song">${cancion.nombre}</p>
+            <p cancion = "${cancion.nombre}" class = "song">${cancion.nombre}</p>
           </div>
           <div>
             <img
@@ -108,11 +129,12 @@ function loadSongs() {
             />
           </div>
         </div>
-        <hr class="opacity-10 group-hover:opacity-50 song" id = "${cancion.nombre}"/>
+        <hr class="opacity-10 group-hover:opacity-50 song" cancion = "${cancion.nombre}"/>
       </div>
         `;
       songsList.innerHTML += song;
-    });
+    }
+    animateButtonPages();
   } else {
     const body = `
     <div class="text-white text-3xl" id="songsNoList">
@@ -139,30 +161,41 @@ function loadSongs() {
 
 }
 
-function showMusicBar(){
+function showMusicBar(reproductor, songPlaying, playlistPlaying) {
   reproductor.classList.add('-translate-y-24');
-  songPlaying.innerText = thisList.canciones[0].nombre;
+  songPlaying.innerText = songTitle;
   playlistPlaying.innerText = thisList.titulo;
 }
 
-function playMusic(title = songTitle){
-
+function playMusic(title = songTitle) {
   songTitle = title;
 
-  reproductor.classList.add('-translate-y-24');
-  songPlaying.innerText = title;
-  playlistPlaying.innerText = thisList.titulo;
-  symbolPlaying.src = 'assets/imgs/pause.png';
-  roundedIconSong.classList.remove('animate-none');
-  roundedIconSong.classList.add('animate-spin');
   playing = true;
-
   audio.src = thisList.canciones.filter(cancion => cancion.nombre === title)[0].url;
   audio.play();
 }
 
+function pauseMusic() {
+  animateMusic();
+  playing = false;
+  audio.pause();
+}
+
+function animateMusic() {
+  const roundedIconSong = document.getElementById('roundedIconSong');
+  if (playing) {
+    roundedIconSong.classList.remove('animate-none');
+    roundedIconSong.classList.add('animate-spin');
+  } else {
+    roundedIconSong.classList.remove('animate-spin');
+    roundedIconSong.classList.add('animate-none');
+  }
+}
+
 function prepareButtons() {
   const playBtn = document.getElementById('playBtn');
+  const titulo = document.getElementById('titulo');
+  const cantidad = document.getElementById('cantidad');
   const reproductor = document.getElementById('reproductor');
   const addSong = document.getElementById('addSong');
   const logo = document.getElementById('logo');
@@ -174,9 +207,13 @@ function prepareButtons() {
   const roundedIconSong = document.getElementById('roundedIconSong');
   const board = document.getElementById('board');
 
+  const previousPage = document.getElementById('previousPage');
+  const nextPage = document.getElementById('nextPage');
+
   playBtn.addEventListener('click', () => {
-    showMusicBar();
-    playMusic(thisList.canciones[0].nombre);
+    songTitle = thisList.canciones[0].nombre;
+    showMusicBar(reproductor, songPlaying, playlistPlaying);
+    playMusic(thisList.canciones[0].nombre, reproductor, songPlaying, playlistPlaying, symbolPlaying, roundedIconSong);
   });
 
   addSong.addEventListener('change', (e) => {
@@ -184,20 +221,25 @@ function prepareButtons() {
     const songs = [];
 
     for (let i = 0; i < files.length; i++) {
-
       const file = files[i];
-      //verify if the file is a song
+
       if (file.type.includes('audio')) {
-        const song = {
-          nombre: file.name,
-          url: URL.createObjectURL(file)
-        };
-        songs.push(song);
+        const nameList = file.name.split('.');
+        nameList.pop();
+        const name = nameList.join('.');
+        if (thisList.canciones.filter(cancion => cancion.nombre === name).length === 0) {
+          songs.push({
+            nombre: name,
+            url: URL.createObjectURL(file)
+          });
+        }
       }
     }
+
     thisList.canciones = thisList.canciones.concat(songs);
+    totalPages = Math.ceil(thisList.canciones.length / 10);
     loadSongs();
-    initializeTitle();
+    initializeTitle(titulo, cantidad);
   });
 
   logo.addEventListener('click', () => {
@@ -223,37 +265,32 @@ function prepareButtons() {
 
   board.addEventListener('click', (e) => {
     if (e.target.classList.contains('song')) {
-      playMusic(e.target.id);
+      songTitle = e.target.getAttribute('cancion');
+      showMusicBar(reproductor, songPlaying, playlistPlaying);
+      playMusic(e.target.getAttribute('cancion'), reproductor, songPlaying, playlistPlaying, symbolPlaying, roundedIconSong);
     }
-
-    if (e.target.type === 'img' && e.target.src.includes('DeleteSong')) {
-      const songName = e.target.parentElement.parentElement.children[0].children[0].innerText;
+    if (e.target.src && e.target.src.includes('DeleteSong')) {
+      const songName = e.target.parentElement.parentElement.children[0].children[0].getAttribute('cancion');
       thisList.canciones = thisList.canciones.filter(cancion => cancion.nombre !== songName);
       loadSongs();
-      songTitle = thisList.canciones.filter(cancion => cancion.nombre === songName)[0].nombre;
-      initializeTitle();
+      initializeTitle(titulo, cantidad);
+    }
+
+    if (e.target.id === "previousPage" || (e.target.src && e.target.src.includes('previousPage'))) {
+      if (page > 1) {
+        page--;
+        loadSongs();
+      }
+    }
+
+    if (e.target.id === "nextPage" ||(e.target.src && e.target.src.includes('nextPage'))) {
+      if (page < totalPages) {
+        page++;
+        loadSongs();
+      }
     }
   });
 }
-
-
-function animateMusic(){
-  const roundedIconSong = document.getElementById('roundedIconSong');
-  if(playing){
-    roundedIconSong.classList.remove('animate-none');
-    roundedIconSong.classList.add('animate-spin');
-  }else{
-    roundedIconSong.classList.remove('animate-spin');
-    roundedIconSong.classList.add('animate-none');
-  }
-}
-
-function pauseMusic(){
-  animateMusic();
-  playing = false;
-  audio.pause();
-}
-
 
 var thisList = {
   titulo: getThisList(),
@@ -262,6 +299,9 @@ var thisList = {
 var playing = false;
 var audio = new Audio();
 var songTitle;
-initializeTitle();
+var page = 1;
+var totalPages;
+
+initializeTitle(document.getElementById('titulo'), document.getElementById('cantidad'));
 loadSongs();
 prepareButtons();
