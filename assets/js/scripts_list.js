@@ -171,7 +171,7 @@ function playMusic(title = songTitle) {
   songTitle = title;
   playing = true;
   audio.src = thisList.canciones.filter(cancion => cancion.nombre === title)[0].url;
-  symbolPlaying.src = 'assets/imgs/pause.png';
+  symbolPlaying.src = 'assets/imgs/Pause.png';
   audio.play();
 }
 
@@ -204,13 +204,12 @@ function prepareButtons() {
   const divListPlaying = document.getElementById('divListPlaying');
   const playPauseBtn = document.getElementById('playPauseBtn');
   const symbolPlaying = document.getElementById('symbolPlaying');
-  const roundedIconSong = document.getElementById('roundedIconSong');
   const board = document.getElementById('board');
 
   playBtn.addEventListener('click', () => {
     songTitle = thisList.canciones[0].nombre;
     showMusicBar(reproductor, songPlaying, playlistPlaying);
-    playMusic(thisList.canciones[0].nombre, reproductor, songPlaying, playlistPlaying, symbolPlaying, roundedIconSong);
+    playMusic(thisList.canciones[0].nombre);
   });
 
   addSong.addEventListener('change', (e) => {
@@ -253,7 +252,7 @@ function prepareButtons() {
       playing = false;
       audio.pause();
     } else {
-      symbolPlaying.src = 'assets/imgs/pause.png';
+      symbolPlaying.src = 'assets/imgs/Pause.png';
       playing = true;
       audio.play();
     }
@@ -264,7 +263,7 @@ function prepareButtons() {
     if (e.target.classList.contains('song')) {
       songTitle = e.target.getAttribute('cancion');
       showMusicBar(reproductor, songPlaying, playlistPlaying);
-      playMusic(e.target.getAttribute('cancion'), reproductor, songPlaying, playlistPlaying, symbolPlaying, roundedIconSong);
+      playMusic(e.target.getAttribute('cancion'));
     }
     if (e.target.src && e.target.src.includes('DeleteSong')) {
       const songName = e.target.parentElement.parentElement.children[0].children[0].getAttribute('cancion');

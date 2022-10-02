@@ -70,13 +70,10 @@ function loadList() {
 }
 
 function prepareButtons() {
-    const addBtn = document.querySelectorAll('.addBtn');
     const cancelBtn = document.getElementById('cancelBtn');
     const createBtn = document.getElementById('createBtn');
     const tituloInput = document.getElementById('titulo');
     const form = document.getElementById('formNewList');
-    const lists = document.querySelectorAll('.list');
-    const deleteBtns = document.querySelectorAll('.list > .delete');
     const deleteListForm = document.getElementById('deleteListForm');
     const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
     const deleteBtn = document.getElementById('deleteBtn');
