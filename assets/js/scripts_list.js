@@ -18,14 +18,13 @@ function initializeTitle() {
   const addSongLabelP = document.getElementById('addSongLabelP');
   const addSongLabelImg = document.getElementById('addSongLabelImg');
 
-  if(thisList.canciones.length > 0) {
+  if (thisList.canciones.length > 0) {
     playBtn.classList.remove('hidden');
-    addSongLabel.classList.remove('flex','justify-around','gap-5', 'w-auto', 'px-5');
-    addSongLabel.classList.add('w-14','ml-5');
+    addSongLabel.classList.remove('flex', 'justify-around', 'gap-5', 'w-auto', 'px-5');
+    addSongLabel.classList.add('w-14', 'ml-5');
     addSongLabelImg.classList.add('ml-4');
     addSongLabelP.classList.add('hidden');
-  }else{
-    console.log('no hay canciones');
+  } else {
     playBtn.classList.add('hidden');
     addSongLabel.classList.remove('w-14', 'ml-5');
     addSongLabel.classList.add('flex', 'justify-around', 'gap-5', 'w-auto', 'px-5');
@@ -70,10 +69,11 @@ function loadSongs() {
     const songsList = document.getElementById('songsList');
     canciones.forEach(cancion => {
       const song = `
-        <div class="group hover:scale-105 transition-all">
-        <div class="flex mx-7 justify-between my-3 hover:cursor-pointer hover:animate-pulse">
+        <div class="group hover:scale-105 transition-all song"
+        id = "${cancion.nombre}">
+        <div class="flex mx-7 justify-between my-3 hover:cursor-pointer hover:animate-pulse song" id = "${cancion.nombre}">
           <div class="">
-            <p>${cancion.nombre}</p>
+            <p id = "${cancion.nombre}" class = "song">${cancion.nombre}</p>
           </div>
           <div>
             <img
@@ -83,7 +83,7 @@ function loadSongs() {
             />
           </div>
         </div>
-        <hr class="opacity-10 group-hover:opacity-50" />
+        <hr class="opacity-10 group-hover:opacity-50 song" id = "${cancion.nombre}"/>
       </div>
         `;
       songsList.innerHTML += song;
@@ -131,19 +131,24 @@ function prepareButtons() {
     reproductor.classList.add('-translate-y-24');
     songPlaying.innerText = thisList.canciones[0].nombre;
     playlistPlaying.innerText = thisList.titulo;
+    playMusic(thisList.canciones[0].nombre);
   });
 
   addSong.addEventListener('change', (e) => {
-    //read all the files selected
     const files = e.target.files;
     const songs = [];
+
     for (let i = 0; i < files.length; i++) {
+
       const file = files[i];
-      const song = {
-        nombre: file.name,
-        url: URL.createObjectURL(file)
-      };
-      songs.push(song);
+      //verify if the file is a song
+      if (file.type.includes('audio')) {
+        const song = {
+          nombre: file.name,
+          url: URL.createObjectURL(file)
+        };
+        songs.push(song);
+      }
     }
     thisList.canciones = thisList.canciones.concat(songs);
     loadSongs();
@@ -161,33 +166,72 @@ function prepareButtons() {
   playPauseBtn.addEventListener('click', () => {
     if (playing) {
       symbolPlaying.src = 'assets/imgs/resume.png';
-      roundedIconSong.classList.remove('animate-spin');
-      roundedIconSong.classList.add('animate-none');
       playing = false;
+      pauseMusic();
     } else {
       symbolPlaying.src = 'assets/imgs/pause.png';
-      roundedIconSong.classList.remove('animate-none');
-      roundedIconSong.classList.add('animate-spin');
       playing = true;
+      playMusic();
     }
+    animateMusic();
   });
 
   board.addEventListener('click', (e) => {
-    if (e.target.src.includes('DeleteSong')) {
+    if (e.target.classList.contains('song')) {
+      playMusic(e.target.id);
+    }
+
+    if (e.target.type === 'img' && e.target.src.includes('DeleteSong')) {
       const songName = e.target.parentElement.parentElement.children[0].children[0].innerText;
       thisList.canciones = thisList.canciones.filter(cancion => cancion.nombre !== songName);
       loadSongs();
+      songTitle = thisList.canciones.filter(cancion => cancion.nombre === songName)[0].nombre;
       initializeTitle();
     }
   });
 }
+
+function playMusic(title = songTitle){
+console.log(title);
+console.log(songTitle);
+  songTitle = title;
+  reproductor.classList.add('-translate-y-24');
+  songPlaying.innerText = title;
+  playlistPlaying.innerText = thisList.titulo;
+  symbolPlaying.src = 'assets/imgs/pause.png';
+  roundedIconSong.classList.remove('animate-none');
+  roundedIconSong.classList.add('animate-spin');
+  playing = true;
+
+  audio.src = thisList.canciones.filter(cancion => cancion.nombre === title)[0].url;
+  audio.play();
+}
+
+function animateMusic(){
+  const roundedIconSong = document.getElementById('roundedIconSong');
+  if(playing){
+    roundedIconSong.classList.remove('animate-none');
+    roundedIconSong.classList.add('animate-spin');
+  }else{
+    roundedIconSong.classList.remove('animate-spin');
+    roundedIconSong.classList.add('animate-none');
+  }
+}
+
+function pauseMusic(){
+  animateMusic();
+  playing = false;
+  audio.pause();
+}
+
 
 var thisList = {
   titulo: getThisList(),
   canciones: []
 }
 var playing = false;
-
+var audio = new Audio();
+var songTitle;
 initializeTitle();
 loadSongs();
 prepareButtons();
