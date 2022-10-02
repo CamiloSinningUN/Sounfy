@@ -269,6 +269,15 @@ function prepareButtons() {
     if (e.target.src && e.target.src.includes('DeleteSong')) {
       const songName = e.target.parentElement.parentElement.children[0].children[0].getAttribute('cancion');
       thisList.canciones = thisList.canciones.filter(cancion => cancion.nombre !== songName);
+      if (songName === songTitle) {
+        audio.pause();
+        playing = false;
+        symbolPlaying.src = 'assets/imgs/resume.png';
+        animateMusic();
+        audio.src = '';
+        songTitle = null;
+        reproductor.classList.remove('-translate-y-24');
+      }
       loadSongs();
       initializeTitle(titulo, cantidad);
     }

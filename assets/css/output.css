@@ -842,10 +842,6 @@ video {
   width: 25%;
 }
 
-.max-w-full {
-  max-width: 100%;
-}
-
 .max-w-\[95\%\] {
   max-width: 95%;
 }
