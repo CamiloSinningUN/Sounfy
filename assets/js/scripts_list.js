@@ -5,31 +5,39 @@ function getThisList() {
   return urlParams.get('list');
 }
 
+function buttonNoSongs() {
+  playBtn.classList.remove('hidden');
+  addSongLabel.classList.remove('flex', 'justify-around', 'gap-5', 'w-auto', 'px-5');
+  addSongLabel.classList.add('w-14', 'ml-5');
+  addSongLabelImg.classList.add('ml-4');
+  addSongLabelP.classList.add('hidden');
+}
+
+function buttonWSongs() {
+  playBtn.classList.add('hidden');
+  addSongLabel.classList.remove('w-14', 'ml-5');
+  addSongLabel.classList.add('flex', 'justify-around', 'gap-5', 'w-auto', 'px-5');
+  addSongLabelImg.classList.remove('ml-4');
+  addSongLabelP.classList.remove('hidden');
+}
+
 function initializeTitle() {
   const title = thisList.titulo;
   const titulo = document.getElementById('titulo');
-  titulo.innerText = title;
   const length = thisList.canciones.length;
   const cantidad = document.getElementById('cantidad');
-  cantidad.innerText = length + " canciones";
-
   const playBtn = document.getElementById('playBtn');
   const addSongLabel = document.getElementById('addSongLabel');
   const addSongLabelP = document.getElementById('addSongLabelP');
   const addSongLabelImg = document.getElementById('addSongLabelImg');
+  
+  titulo.innerText = title;
+  cantidad.innerText = length + " canciones";
 
   if (thisList.canciones.length > 0) {
-    playBtn.classList.remove('hidden');
-    addSongLabel.classList.remove('flex', 'justify-around', 'gap-5', 'w-auto', 'px-5');
-    addSongLabel.classList.add('w-14', 'ml-5');
-    addSongLabelImg.classList.add('ml-4');
-    addSongLabelP.classList.add('hidden');
+    buttonNoSongs(playBtn, addSongLabel, addSongLabelP, addSongLabelImg);
   } else {
-    playBtn.classList.add('hidden');
-    addSongLabel.classList.remove('w-14', 'ml-5');
-    addSongLabel.classList.add('flex', 'justify-around', 'gap-5', 'w-auto', 'px-5');
-    addSongLabelImg.classList.remove('ml-4');
-    addSongLabelP.classList.remove('hidden');
+    buttonWSongs(playBtn, addSongLabel, addSongLabelP, addSongLabelImg);
   }
 }
 
@@ -41,29 +49,46 @@ function loadSongs() {
   if (canciones.length > 0) {
     const head = `
     <div class="text-white mt-5 text-3xl" id="songsList">
-    <div class="opacity-50">
-      <hr class="opacity-20"/>
-      <div class="flex my-3 mx-7">
-        <div class="flex ">
-          <img
-            class="w-5 h-5 my-auto mr-2"
-            src="assets/imgs/order.png"
-            alt=""
-          />
-          <p>Nombre</p>
+          <div>
+            <div class="relative">
+              <hr class="opacity-10"/>
+              <div class="absolute right-36 -top-8 h-16 w-16 bg-[#3C3C3C] rounded-full text-center hover:cursor-default">
+                <p class="opacity-60 text-4xl mt-3">
+                  5
+                </p>
+              </div>
+              <div class="absolute px-3 flex justify-around bg-[#3C3C3C] h-16 w-32 rounded-full right-0 -top-8">
+                <div class="w-full h-full my-auto hover:cursor-pointer">
+                  <img class="h-8 mt-4 ml-3" src="assets/imgs/previousPage.png" alt="">
+                </div>
+                <img class="h-14 my-auto" src="assets/imgs/splitter.png" alt="">
+                <div class="w-full h-full my-auto hover:cursor-pointer">
+                  <img class="h-8 mt-4 mr-3 ml-auto" src="assets/imgs/nextPage.png" alt="">
+                </div>
+              </div>
+            </div>
+
+            <div class="flex my-3 mx-7">
+              <div class="flex opacity-50">
+                <img
+                  class="w-5 h-5 my-auto mr-2 "
+                  src="assets/imgs/order.png"
+                  alt=""
+                />
+                <p>Nombre</p>
+              </div>
+              <div class="opacity-0">
+                <img
+                  class="mr-10 h-7 mt-1"
+                  src="assets/imgs/DeleteSong.png"
+                  alt=""
+                />
+              </div>
+            </div>
+            <hr class="opacity-10"/>
+          </div>
+          <!-- Zona de canciones -->
         </div>
-        <div class="opacity-0">
-          <img
-            class="mr-10 h-7 mt-1"
-            src="assets/imgs/DeleteSong.png"
-            alt=""
-          />
-        </div>
-      </div>
-      <hr class="opacity-20"/>
-    </div>
-    <!-- Zona de canciones -->
-  </div>
     `;
     board.innerHTML += head;
     const songsList = document.getElementById('songsList');
@@ -114,6 +139,28 @@ function loadSongs() {
 
 }
 
+function showMusicBar(){
+  reproductor.classList.add('-translate-y-24');
+  songPlaying.innerText = thisList.canciones[0].nombre;
+  playlistPlaying.innerText = thisList.titulo;
+}
+
+function playMusic(title = songTitle){
+
+  songTitle = title;
+
+  reproductor.classList.add('-translate-y-24');
+  songPlaying.innerText = title;
+  playlistPlaying.innerText = thisList.titulo;
+  symbolPlaying.src = 'assets/imgs/pause.png';
+  roundedIconSong.classList.remove('animate-none');
+  roundedIconSong.classList.add('animate-spin');
+  playing = true;
+
+  audio.src = thisList.canciones.filter(cancion => cancion.nombre === title)[0].url;
+  audio.play();
+}
+
 function prepareButtons() {
   const playBtn = document.getElementById('playBtn');
   const reproductor = document.getElementById('reproductor');
@@ -128,9 +175,7 @@ function prepareButtons() {
   const board = document.getElementById('board');
 
   playBtn.addEventListener('click', () => {
-    reproductor.classList.add('-translate-y-24');
-    songPlaying.innerText = thisList.canciones[0].nombre;
-    playlistPlaying.innerText = thisList.titulo;
+    showMusicBar();
     playMusic(thisList.canciones[0].nombre);
   });
 
@@ -191,21 +236,6 @@ function prepareButtons() {
   });
 }
 
-function playMusic(title = songTitle){
-console.log(title);
-console.log(songTitle);
-  songTitle = title;
-  reproductor.classList.add('-translate-y-24');
-  songPlaying.innerText = title;
-  playlistPlaying.innerText = thisList.titulo;
-  symbolPlaying.src = 'assets/imgs/pause.png';
-  roundedIconSong.classList.remove('animate-none');
-  roundedIconSong.classList.add('animate-spin');
-  playing = true;
-
-  audio.src = thisList.canciones.filter(cancion => cancion.nombre === title)[0].url;
-  audio.play();
-}
 
 function animateMusic(){
   const roundedIconSong = document.getElementById('roundedIconSong');
