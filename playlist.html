@@ -10,126 +10,83 @@
   <body class="bg-gray font-Reem-Kufi">
     <header>
       <div class="text-center my-5">
-        <p id="logo" class="text-orange text-4xl hover:cursor-pointer">Sounfy</p>
+        <p id="logo" class="text-orange text-4xl hover:cursor-pointer">
+          Sounfy
+        </p>
       </div>
     </header>
-    <section class="text-center flex flex-col mx-5">
+    <section class="flex flex-col w-[1354px] mx-auto gap-y-9 h-auto">
       <!-- Titulo -->
-      <div class="flex w-auto h-50">
-        <div class="h-full w-auto">
+      <div class="flex flex-row justify-between gap-x-9">
+        <div class="w-64 h-64">
           <img class="" src="assets/imgs/playlist.png" alt="" />
         </div>
-        <div class="flex flex-col justify-between ml-5 text-left w-auto">
-          <div>
-            <h2 id="titulo" class="text-white text-5xl ">LIFE STARTS NOW</h2>
-            <h5
-                id="cantidad"
-              class="text-white opacity-50 text-2xl align-middle"
-            >
-              30 canciones
-            </h5>
-          </div>
-          <div class="flex align-bottom"
-          id="normalBtn">
+        <div class="grow flex flex-col">
+          <h2 id="titulo" class="text-white text-5xl">LIFE STARTS NOW</h2>
+          <h5 class="text-white mt-1 opacity-50 text-3xl align-middle">
+            Lista de reproducción
+          </h5>
+          <div class="flex mt-auto mb-0" id="normalBtn">
             <button
-              class="bg-yellow rounded-full w-auto px-10 h-14 text-4xl text-black"
-                id="playBtn"
-              >
-              Reproducir
+              class="
+              hidden bg-yellow rounded-full w-auto px-16 h-14 text-4xl text-black hover:opacity-80 active:opacity-70"
+              id="playBtn"
+            >
+              Play
             </button>
-            <button class="bg-orange rounded-full w-14 h-14 ml-5"
-            id="addSong">
+            <label
+              id="addSongLabel"
+              for="addSong"
+              class="flex justify-around bg-orange rounded-full w-auto px-5 gap-5 h-14 hover:opacity-80 active:opacity-70 hover:cursor-pointer transition-all"
+            >
+              <p class="text-3xl text-white my-auto transition-all" id="addSongLabelP">
+                Añadir
+              </p>
               <img
-                class="mx-auto mb-1 w-6 h-6"
+                class=" mb-1 w-6 h-6 mt-4 transition-all"
                 src="assets/imgs/addsong.png"
                 alt=""
+                id="addSongLabelImg"
               />
-            </button>
-          </div>
-          <div class="hidden flex"
-          id="registerSongBtn">
-                    <input class="bg-white pl-5 rounded-full w-72 h-14 text-3xl text-black" type="text" placeholder="Nombre*">
-                    <input class="bg-white pl-5 rounded-full w-72 h-14 text-3xl text-black ml-5" type="text" placeholder="Autor">
-                    <div class="bg-white pl-5 rounded-full w-14 h-14 text-3xl text-black ml-5 flex hover:cursor-pointer">
-                        <img class=" relative w-7 my-auto -ml-1.5" src="assets/imgs/upload.png" alt="">
-                    </div>
-                    <button class="bg-orange rounded-full w-52 h-14 ml-5">
-                        <div class="flex justify-center">     
-                            <p class="text-white text-3xl mr-5">
-                                Añadir
-                            </p>
-                            <img class="h-6 w-6 my-auto" src="assets/imgs/addsong.png" alt="">
-                        </div>
-                    </button>
-                </div>
-        </div>
-      </div>
-      <!-- Lista de canciones (Sin canciones)-->
-      <div class="hidden text-white mt-5 text-3xl" id="songsNoList">
-        <div class="opacity-50 flex flex-col">
-          <hr />
-          <div class="my-auto mt-10">
-            <img class="w-52 aspect-square mx-auto" src="assets/imgs/noSongs.png" alt="">
-            <h5 class="text-white opacity-50 w-1/4 mx-auto text-2xl align-middle mt-5">
-              No hay canciones, agrega la primera
-            </h5>
+            </label>
+            <input id="addSong" type="file" class="hidden" multiple="multiple"/>
           </div>
         </div>
-        <!-- Zona de canciones -->
-      </div>
-      <!-- Lista de canciones (Con canciones)-->
-      <div class="hidden text-white mt-5 text-3xl" id="songsList">
-        <div class="opacity-50">
-          <hr />
-          <div class="flex my-3">
-            <div class="flex w-1/5 justify-center">
-              <img
-                class="w-5 h-5 my-auto mr-2"
-                src="assets/imgs/order.png"
-                alt=""
-              />
-              <p>Nombre</p>
-            </div>
-            <div class="flex w-4/5 justify-center">
-              <img
-                class="w-5 h-5 my-auto mr-2"
-                src="assets/imgs/order.png"
-                alt=""
-              />
-              <p>Autor</p>
-            </div>
-            <div class="opacity-0">
-              <img
-                class="mr-10 h-7 mt-1"
-                src="assets/imgs/options.png"
-                alt=""
-              />
-            </div>
-          </div>
-          <hr />
+        <div class="w-auto">
+          <h5 id="cantidad" class="text-white opacity-50 text-3xl align-middle">
+            30 canciones
+          </h5>
         </div>
-        <!-- Zona de canciones -->
       </div>
+      <div id="board">
+
+      </div>    
     </section>
     <!-- reproductor -->
     <footer
       class="-bottom-24 transition-all fixed bg-black overflow-visible h-12 w-full flex justify-between text-white shadow-white shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] p-3"
-        id="reproductor"
-      >
-      <div class="flex">
-        <img class="animate-spin" src="assets/imgs/song.png" alt="" />
-        <p class="ml-5 my-auto">21 Guns - Green day</p>
+      id="reproductor"
+    >
+      <div class="flex hover:cursor-default">
+        <img id="roundedIconSong" class="animate-spin transition-all" src="assets/imgs/song.png" alt="" />
+        <p class="ml-5 my-auto opacity-70" id="songPlaying">21 Guns - Green day</p>
       </div>
-      <div class="flex relative -mt-8 hover:cursor-pointer group">
-        <img class="w-14 h-14 relative inline-flex" src="assets/imgs/play.png" alt="" />
-        <img
-          class="-z-10 w-14 h-14 group-hover:animate-ping absolute inline-flex"
-          src="assets/imgs/play.png"
+
+      <div class= "absolute -mt-8 left-[calc(50vw-56px/2)] hover:cursor-pointer group" id="playPauseBtn">
+        <div class="absolute bg-orange w-14 h-14 rounded-full hover:opacity-80 active:opacity-70">
+          <img
+          class="w-5 h-5 relative top-[17px] left-[18px]"
+          src="assets/imgs/Pause.png"
           alt=""
+          id="symbolPlaying"
         />
+        </div>
+        <div class="absolute bg-orange -z-10 w-14 h-14 group-hover:animate-ping rounded-full">
+
+        </div>
       </div>
-      <div class="flex">
-        <p class="mr-5 my-auto">Rock 2000</p>
+      <div class="flex hover:cursor-pointer" id="divListPlaying">
+        <p class="mr-5 my-auto opacity-70" id="playlistPlaying">Rock 2000</p>
         <img src="assets/imgs/list.png" alt="" />
       </div>
     </footer>

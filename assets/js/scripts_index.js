@@ -14,11 +14,11 @@ function loadList() {
         class="border border-blue rounded-2xl border-solid flex flex-col w-60 aspect-square justify-center hover:cursor-pointer addBtn hover:scale-105 active:opacity-70 transition-all"
       >
         <img
-          class="w-1/3 aspect-square mx-auto mb-12"
+          class="w-1/3 aspect-square mx-auto mb-12 addBtn"
           src="assets/imgs/add.png"
           alt=""
         />
-        <p class="text-blue text-5xl">Agregar</p>
+        <p class="text-blue text-5xl addBtn">Agregar</p>
       </div>`;
         listas.forEach(list => {
             const listElement = `
@@ -28,18 +28,19 @@ function loadList() {
             id="${list.titulo}"
           >
             <p
-              class="text-white break-normal whitespace-normal w-full text-6xl mx-auto truncate"
-            >
+              class="text-white break-normal whitespace-normal w-full text-6xl mx-auto truncate list"
+              id="${list.titulo}"
+              >
               ${list.titulo}
             </p>
             <div
-              class="absolute top-3 right-3 scale-0 group-hover:scale-100 transition-all delete"
-              id="${list.titulo}"
+              class="absolute top-3 right-3 scale-0 group-hover:scale-100 transition-all"
             >
               <img
-                class="w-5 h-5 aspect-square mx-auto mb-12"
+                class="w-5 h-5 aspect-square mx-auto mb-12 delete"
                 src="assets/imgs/delete.png"
                 alt=""
+                id="${list.titulo}"
               />
             </div>
           </div>
@@ -57,11 +58,11 @@ function loadList() {
             class="border border-blue rounded-2xl border-solid flex flex-col w-72 h-72 justify-center hover:cursor-pointer addBtn animate-pulse hover:scale-105 hover:animate-none active:opacity-70 transition-all"
             >
             <img
-                class="w-1/3 aspect-square mx-auto mb-12"
+                class="w-1/3 aspect-square mx-auto mb-12 addBtn"
                 src="assets/imgs/add.png"
                 alt=""
             />
-            <p class="text-blue text-4xl">Agregar</p>
+            <p class="text-blue text-4xl addBtn">Agregar</p>
             </div>`;
         listsAreaZero.classList.remove('hidden');
         listsAreaPlus.classList.add('hidden');
@@ -81,13 +82,39 @@ function prepareButtons() {
     const deleteBtn = document.getElementById('deleteBtn');
     const errorAddList = document.getElementById('errorAddList');
     const logo = document.getElementById('logo');
+    const listsAreaPlus = document.getElementById('listsAreaPlus');
+    const listsAreaZero = document.getElementById('listsAreaZero');
+    
+    listsAreaPlus.addEventListener('click', e => {
+        console.log(e.target);
 
-    addBtn.forEach(btn => {
-        btn.addEventListener('click', () => {
+        // agregar lista
+        if (e.target.classList.contains('addBtn')) {
             const addListForm = document.getElementById('addListForm');
             addListForm.classList.remove('hidden');
             errorAddList.classList.add('hidden');
-        });
+        }
+
+        // ver lista
+        if (e.target.classList.contains('list')) {
+            window.location.href = `playlist.html?list=${e.target.id}`;
+        }
+
+        // borrar lista
+        if (e.target.classList.contains('delete')) {
+            e.stopPropagation();
+            const listName = e.target.id;
+            deleteListForm.classList.remove('hidden');
+            deleteBtn.setAttribute('list', listName);
+        }
+    });
+
+    listsAreaZero.addEventListener('click', e => {
+        if (e.target.classList.contains('addBtn')) {
+            const addListForm = document.getElementById('addListForm');
+            addListForm.classList.remove('hidden');
+            errorAddList.classList.add('hidden');
+        }
     });
 
     cancelBtn.addEventListener('click', (e) => {
@@ -139,23 +166,6 @@ function prepareButtons() {
         }
     });
 
-    lists.forEach(list => {
-        list.addEventListener('click', () => {
-            const listName = list.id;
-            console.log(listName);
-            window.location.href = `playlist.html?list=${listName}`;
-        });
-    });
-
-    deleteBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const listName = btn.id;
-            deleteListForm.classList.remove('hidden');
-            deleteBtn.setAttribute('list', listName);
-        });
-    });
-
     cancelDeleteBtn.addEventListener('click', () => {
         deleteListForm.classList.add('hidden');
     });
@@ -163,8 +173,8 @@ function prepareButtons() {
     deleteBtn.addEventListener('click', (e) => {
         e.preventDefault();
         const listName = deleteBtn.getAttribute('list');
-        const index = listas.findIndex(list => list.titulo == listName);
-        listas.splice(index, 1);
+        listas.map(lista => lista.titulo != listName);
+        listas = listas.filter(lista => lista.titulo != listName)
         window.localStorage.setItem("listas", JSON.stringify(listas))
         deleteListForm.classList.add('hidden');
         updateList();
@@ -179,7 +189,6 @@ function updateList() {
     const listsAreaPlus = document.getElementById('listsAreaPlus');
     listsAreaPlus.innerHTML = '';
     loadList();
-    prepareButtons();
     resetInputs();
 }
 
@@ -188,7 +197,7 @@ function resetInputs() {
     tituloInput.value = '';
 }
 
-const listas = getList();
+var listas = getList();
 loadList();
 prepareButtons();
 
