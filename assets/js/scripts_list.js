@@ -169,9 +169,9 @@ function showMusicBar(reproductor, songPlaying, playlistPlaying) {
 
 function playMusic(title = songTitle) {
   songTitle = title;
-
   playing = true;
   audio.src = thisList.canciones.filter(cancion => cancion.nombre === title)[0].url;
+  symbolPlaying.src = 'assets/imgs/pause.png';
   audio.play();
 }
 
@@ -206,9 +206,6 @@ function prepareButtons() {
   const symbolPlaying = document.getElementById('symbolPlaying');
   const roundedIconSong = document.getElementById('roundedIconSong');
   const board = document.getElementById('board');
-
-  const previousPage = document.getElementById('previousPage');
-  const nextPage = document.getElementById('nextPage');
 
   playBtn.addEventListener('click', () => {
     songTitle = thisList.canciones[0].nombre;
@@ -254,11 +251,11 @@ function prepareButtons() {
     if (playing) {
       symbolPlaying.src = 'assets/imgs/resume.png';
       playing = false;
-      pauseMusic();
+      audio.pause();
     } else {
       symbolPlaying.src = 'assets/imgs/pause.png';
       playing = true;
-      playMusic();
+      audio.play();
     }
     animateMusic();
   });
@@ -290,6 +287,18 @@ function prepareButtons() {
       }
     }
   });
+
+  audio.addEventListener('ended', () => {
+    const index = thisList.canciones.findIndex(cancion => cancion.nombre === songTitle);
+    if (index < thisList.canciones.length - 1) {
+      songTitle = thisList.canciones[index + 1].nombre;
+      playMusic(thisList.canciones[index + 1].nombre);
+      songPlaying.innerText = songTitle;
+    } else {
+      pauseMusic();
+    }
+  });
+
 }
 
 var thisList = {
