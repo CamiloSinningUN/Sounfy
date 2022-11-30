@@ -23,6 +23,7 @@ Open the project with your preferred code editor or visit the webpage at: https:
 * Visual Studio Code - IDE
 * HTML
 * CSS
+* JavaScript
 * TailwindCSS
 
 ## Authors ✒️
