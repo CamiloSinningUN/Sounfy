@@ -1,6 +1,6 @@
 # Sounfy
 
-Web page which allow you to create a playlist for your local music and reproduce it.
+A web page that allows you to create a playlist for your local music and reproduce it.
 
 ## Preview
 
